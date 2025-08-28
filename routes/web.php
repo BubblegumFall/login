@@ -11,28 +11,25 @@ use App\Http\Controllers\LoginController;
 
 
 Route::get('/', [LoginController::class,'index']);
+Route::post('/login', [LoginController::class, 'loginAction'])->name('login.action');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/template', function () {
-    return view('index');
+Route::middleware('auth')->group(function () {
+    Route::get('dashboard', [DashboardController::class,'index'])->name('dashboard');
+
+    Route::resource('siswa', SiswaController::class);
+    Route::resource('guru', GuruController::class);
 });
 
-Route::get('dashboard', [DashboardController::class,'index']);
+// Route::prefix('admin')->group(function () {
+//     Route::get('/admin', [AdminController::class, 'index']);
+//     Route::get('/users', [AdminController::class, 'users']);
+// });
 
-Route::get('siswa', [SiswaController::class,'index']);
+// Route::prefix('users')->group(function () {
+//     Route::get('/index', [UsersController::class, 'index']);
+//     Route::get('/create', [UsersController::class, 'create']);
+// });
 
-Route::get('guru', [GuruController::class,'index']);
 
-Route::prefix('admin')->group(function () {
-    Route::get('/admin', [AdminController::class, 'index']);
-    Route::get('/users', [AdminController::class, 'users']);
-});
-
-Route::prefix('users')->group(function () {
-    Route::get('/index', [UsersController::class, 'index']);
-    Route::get('/create', [UsersController::class, 'create']);
-});
-
-Route::resource('siswa', SiswaController::class);
-
-Route::post('/siswa', [SiswaController::class, 'store'])->name('siswa.store');
 
