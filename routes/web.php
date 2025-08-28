@@ -6,7 +6,11 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\LoginController;
 
+
+
+Route::get('/', [LoginController::class,'index']);
 
 Route::get('/template', function () {
     return view('index');
